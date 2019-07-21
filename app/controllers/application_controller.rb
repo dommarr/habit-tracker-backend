@@ -35,6 +35,7 @@ class ApplicationController < ActionController::API
     @current_user = t.authenticate(self, &AUTH_PROC)
   end
 
+
   # Require SSL for deployed applications
   force_ssl if: :ssl_configured?
   def ssl_configured?
