@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :habits, except: %i[new edit]
+
   # RESTful routes
   resources :examples, except: %i[new edit]
+  resources :habits, except: %i[new edit]
 
   # Custom routes
   post '/sign-up' => 'users#signup'

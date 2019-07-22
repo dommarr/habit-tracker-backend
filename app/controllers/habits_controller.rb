@@ -1,5 +1,7 @@
-class HabitsController < ApplicationController
-  before_action :set_habit, only: [:show, :update, :destroy]
+# frozen_string_literal: true
+
+class HabitsController < OpenReadController
+  before_action :set_habit, only: %i[update destroy show]
 
   # GET /habits
   def index
@@ -10,12 +12,13 @@ class HabitsController < ApplicationController
 
   # GET /habits/1
   def show
-    render json: @habit
+    # render json: Habit.find(params[:id])
+    render json: current_user.habits.find(params[:id])
   end
 
   # POST /habits
   def create
-    @habit = Habit.new(habit_params)
+    @habit = current_user.habits.build(habit_params)
 
     if @habit.save
       render json: @habit, status: :created, location: @habit
@@ -36,16 +39,17 @@ class HabitsController < ApplicationController
   # DELETE /habits/1
   def destroy
     @habit.destroy
+
+    head :no_content
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_habit
-      @habit = Habit.find(params[:id])
-    end
+  def set_habit
+    @habit = current_user.habits.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def habit_params
-      params.require(:habit).permit(:habit_title, :streak)
-    end
+  def habit_params
+    params.require(:habit).permit(:habit_title, :streak)
+  end
+
+  private :set_habit, :habit_params
 end
