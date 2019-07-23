@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class HabitsController < OpenReadController
-  before_action :set_habit, only: %i[update destroy show]
+class HabitsController < ProtectedController
+  before_action :set_habit, only: %i[update destroy]
 
   # GET /habits
   def index
