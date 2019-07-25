@@ -2,11 +2,20 @@
 
 class HabitsController < ProtectedController
   before_action :set_habit, only: %i[update destroy]
+  # before_action :only_see_own_page, only: %i[index show]
+  #
+  # def only_see_own_page
+  # @user = User.find(params[:id])
+  #
+  # if current_user != @user
+  #   redirect_to root_path, notice: "Sorry, but you are only allowed to view your own profile page."
+  # end
+  # end
 
   # GET /habits
   def index
-    @habits = Habit.all
-
+    # @habits = Habit.all
+    @habits = current_user.habits.all
     render json: @habits
   end
 
